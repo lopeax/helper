@@ -1,6 +1,7 @@
 Array.prototype.allEqual = function(){
-    for (var i = 1; i < this.length; i++) {
-        if (this[i] !== this[0]) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] !== this[this.length - 1]) {
             return false;
         }
     }
@@ -13,11 +14,13 @@ Array.prototype.removeItem = function(item){
 }
 
 Array.prototype.shuffle = function(){
-    for (var i = this.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = this[i];
-        this[i] = this[j];
-        this[j] = temp;
+    //Fisher-Yates Shuffle
+    var m = this.length, t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = this[m];
+        this[m] = this[i];
+        this[i] = t;
     }
     return this;
 }
@@ -25,7 +28,8 @@ Array.prototype.shuffle = function(){
 var helper = {
     arrayOfObjects: {
         editAllProperty: function(arr,property,value){
-            for (var i = 0; i < arr.length; i++) {
+            var i = arr.length;
+            while (i--) {
                 arr[i][property] = value;
             }
             return arr;
@@ -93,7 +97,7 @@ var helper = {
             var r = parseInt((cutHex(color)).substring(0,2),16);
             var g = parseInt((cutHex(color)).substring(2,4),16);
             var b = parseInt((cutHex(color)).substring(4,6),16);
-            return 'rgb('+r.toString()+','+g.toString()+','+b.toString()+','+a.toString()+')';
+            return 'rgba('+r.toString()+','+g.toString()+','+b.toString()+','+a.toString()+')';
         },
         rgbToHex: function(r,g,b){
             function toHex(n) {
@@ -153,9 +157,9 @@ var helper = {
                     y: y
                 },
                 shape: {
-                    height: h,
+                    height: s,
                     size: s * s,
-                    width: w
+                    width: s
                 },
                 velocity: {
                     x: vx,
