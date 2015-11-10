@@ -73,6 +73,24 @@ CanvasRenderingContext2D.prototype.drawRect = function(shape){
     this.fillRect(shape.position.x, shape.position.y, shape.shape.width, shape.shape.height);
 }
 
+CanvasRenderingContext2D.prototype.renderAndThrottleFpsAt = function (fps, render) {
+    var fpsInterval, startTime, now, then, elapsed;
+
+    fpsInterval = 1000 / fps;
+    then = Date.now();
+    startTime = then;
+
+    (function animate() {
+        requestAnimationFrame(animate);
+        now = Date.now();
+        elapsed = now - then;
+        if (elapsed > fpsInterval) {
+            then = now - (elapsed % fpsInterval);
+            render();
+        }
+    })();
+}
+
 Math.randomInt = function(min, max){
     return Math.floor((Math.random() * (max - min))) + min
 }
