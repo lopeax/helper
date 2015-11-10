@@ -67,8 +67,13 @@ Array.prototype.editAllProperty = function(property,value){
     return this;
 }
 
-CanvasRenderingContext2D.prototype.drawRect = function(shape){
+CanvasRenderingContext2D.prototype.clearDrawRect = function(shape){
     this.clearRect(shape.position.x, shape.position.y, shape.shape.width, shape.shape.height);
+    this.fillStyle = shape.color.base;
+    this.fillRect(shape.position.x, shape.position.y, shape.shape.width, shape.shape.height);
+}
+
+CanvasRenderingContext2D.prototype.drawRect = function(shape){
     this.fillStyle = shape.color.base;
     this.fillRect(shape.position.x, shape.position.y, shape.shape.width, shape.shape.height);
 }
