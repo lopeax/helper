@@ -34,8 +34,8 @@ A list of helpers that I use pretty regularly
 | browser.info();                               | String 'Chrome 46'                             |
 | browser.name();                               | String 'Chrome'                                |
 | browser.version();                            | String '46'                                    |
-| browser.match('Chrome 46');                   | Boolean true                                   |
-| browser.matchName('Chrome');                  | Boolean true                                   |
+| browser.match('Chrome 46');                   | Boolean true //Case Sensitive                  |
+| browser.matchName('Chrome');                  | Boolean true //Case Sensitive                  |
 | browser.matchVersion('46');                   | Boolean true                                   |
 
 ### Canvas Helpers
