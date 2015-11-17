@@ -64,7 +64,7 @@ ctx.renderAndThrottleFpsAt(60, function(){
 
 Useful click event that handles ios touch as well
 ```javascript
-document.addEventListener(clicked,function(){
+document.addEventListener(clicked,function(e){
   //Do something
 });
 ```
