@@ -71,5 +71,5 @@ document.addEventListener(clicked,function(){
 
 Animates scrolling when a hashtag link is clicked on
 ```javascript
-animations.scrollLinks(document.getElementById('nav'));
+animations.scrollLinks(document.getElementById('nav').offsetHeight);
 ```
