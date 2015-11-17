@@ -31,7 +31,7 @@ String rgbToHex
 
 ```javascript
 var str = 'rgb(255,255,255)';
-str.rgbToHex(); //String or int
+str.rgbToHex();
 console.log(str);
 ```
 
