@@ -67,6 +67,22 @@ Array.prototype.editAllProperty = function(property,value){
     return this;
 }
 
+Object.prototype.toMatrix = function(cols) {
+    var matrix = [],
+        i = 0,
+        len = this.length,
+        k = -1;
+    while (i < len) {
+        if (i % cols === 0) {
+            k++;
+            matrix[k] = [];
+        }
+        matrix[k].push(this[i]);
+        i++;
+    }
+    return matrix;
+}
+
 CanvasRenderingContext2D.prototype.clearDrawRect = function(shape){
     this.clearRect(shape.position.x, shape.position.y, shape.shape.width, shape.shape.height);
     this.fillStyle = shape.color.base;
