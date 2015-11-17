@@ -40,8 +40,17 @@ A list of helpers that I use pretty regularly
 
 ### Canvas Helpers
 
-A very useful wrapper for animation so that it throttles the framerate at a certain fps.
-It handles requestAnimationFrame for you as well.
+A very useful wrapper for animation that handles requestAnimationFrame.
+```javascript
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+ctx.render(function(){
+  //Do something
+});
+```
+
+Same as above except it also throttles the framerate at a certain fps.
 ```javascript
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
