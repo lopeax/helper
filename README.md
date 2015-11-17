@@ -1,7 +1,9 @@
 # Helper
 A list of helpers that I use pretty regularly
 
-## String Helpers
+## Vanilla Javascript
+
+### String Helpers
 
 | Variable                   | Usage                                         | Result                                   |
 |----------------------------|-----------------------------------------------|------------------------------------------|
@@ -9,7 +11,7 @@ A list of helpers that I use pretty regularly
 | string '#FFFFFF'           | string.hexToRGBA(1); //Feed alpha value       | String 'rgb(255,255,255)'                |
 | string 'rgb(255,255,255)'  | string.rgbToHex();                            | String '#FFFFFF'                         |
 
-## Array Helpers
+### Array Helpers
 
 | Variable                   | Usage                                         | Result                                   |
 |----------------------------|-----------------------------------------------|------------------------------------------|
@@ -19,13 +21,13 @@ A list of helpers that I use pretty regularly
 | Array [{a:2},{a:2},{a:2}]  | array.editAllProperty('a',4); //Feed new value| Array [{a:4},{a:4},{a:4}]                |
 | Array [1,2,3,1,2,3,1,2,3]  | array.toMatrix(3); //Feed depth               | Array [[1,2,3],[1,2,3],[1,2,3]]          |
 
-## Math Helpers
+### Math Helpers
 
 | Usage                                         | Result                                         |
 |-----------------------------------------------|------------------------------------------------|
 | Math.randomInt(10,100);                       | Integer 59 //Random integer between 10 and 100 |
 
-## Browser Helpers
+### Browser Helpers
 
 | Usage                                         | Result                                         |
 |-----------------------------------------------|------------------------------------------------|
@@ -36,7 +38,7 @@ A list of helpers that I use pretty regularly
 | browser.matchName('Chrome');                  | Boolean true                                   |
 | browser.matchVersion('46');                   | Boolean true                                   |
 
-## Canvas Helpers
+### Canvas Helpers
 
 A very useful wrapper for animation so that it throttles the framerate at a certain fps.
 It handles requestAnimationFrame for you as well.
@@ -49,7 +51,7 @@ ctx.renderAndThrottleFpsAt(60, function(){
 });
 ```
 
-## Event Helpers
+### Event Helpers
 
 Useful click event that handles ios touch as well
 ```javascript
