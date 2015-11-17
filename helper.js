@@ -83,6 +83,13 @@ Object.prototype.toMatrix = function(cols) {
     return matrix;
 }
 
+CanvasRenderingContext2D.prototype.render = function(render) {
+    (function animate() {
+        requestAnimationFrame(animate);
+        render();
+    })();
+}
+
 CanvasRenderingContext2D.prototype.renderAndThrottleFpsAt = function (fps, render) {
     var fpsInterval, startTime, now, then, elapsed;
 
