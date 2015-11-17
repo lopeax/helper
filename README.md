@@ -71,5 +71,9 @@ document.addEventListener(clicked,function(){
 
 Animates scrolling when a hashtag link is clicked on
 ```javascript
+//Use this if the navigation isn't fixed
+animations.scrollLinks(0);
+
+//If the navigation is fixed, get the height of the nav element to pass into the function
 animations.scrollLinks(document.getElementById('nav').offsetHeight);
 ```
