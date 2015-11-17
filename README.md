@@ -1,7 +1,7 @@
 # Helper
 A list of helpers that I use pretty regularly
 
-## Vanilla Javascript
+## Vanilla Javascript [js](helper.js)
 
 ### String Helpers
 
