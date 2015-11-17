@@ -19,7 +19,7 @@ String hexToRGBA
 
 ```javascript
 var str = '#FFFFFF';
-str.hexToRGBA(1); //String or int
+str.hexToRGBA(1); //String or int from 0 to 1 for the alpha value
 console.log(str);
 ```
 
