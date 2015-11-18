@@ -36,7 +36,7 @@ A list of helpers that I use pretty regularly
 | browser.version();                            | String '46'                                    |
 | browser.matchInfo('Chrome 46');               | Boolean true //Case Sensitive Regex            |
 | browser.matchName('Chrome');                  | Boolean true //Case Sensitive Regex            |
-| browser.matchVersion('46');                   | Boolean true                                   |
+| browser.matchVersion('46');                   | Boolean true //Case Sensitive Regex            |
 
 ### Canvas Helpers
 
