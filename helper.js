@@ -109,7 +109,7 @@ CanvasRenderingContext2D.prototype.renderAndThrottleFpsAt = function (fps, rende
 }
 
 Math.randomInt = function(min, max){
-    return Math.floor((Math.random() * (max - min))) + min
+    return Math.round((Math.random() * max)) + min
 }
 
 var clicked = (navigator.userAgent.match(/iPad/i)) ? 'touchstart' : 'click';
