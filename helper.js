@@ -226,7 +226,7 @@ var animations = {
                     var target = href.substr(href.indexOf('/#') + 2);
                     if(document.getElementById(target)){
                         links.item(i).addEventListener(clicked,function(e){
-                            self.bringIntoView(document.getElementById(target), duration);
+                            self.bringIntoView(target, duration);
                             setTimeout(function(){
                                 window.location.hash = target;
                             },duration + 10);
