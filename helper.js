@@ -217,24 +217,26 @@ var animations = {
     },
     scrollAnchorLinks: function(duration){
         var self = this;
-        var links = document.querySelectorAll('a');
-        var i = links.length;
-        while(i--) {
-            var href = links.item(i).href;
-            if(href.indexOf('/#') > 1){
-                var target = href.substr(href.indexOf('/#') + 2);
-                if(document.getElementById(target)){
-                    links.item(i).addEventListener(clicked,function(e){
-                        self.bringIntoView(document.getElementById(target), duration);
-                        setTimeout(function(){
-                            window.location.hash = target;
-                        },duration + 10);
-                        e.preventDefault();
-                        return false;
-                    });
+        self.onload(function(){
+            var links = document.querySelectorAll('a');
+            var i = links.length;
+            while(i--) {
+                var href = links.item(i).href;
+                if(href.indexOf('/#') > 1){
+                    var target = href.substr(href.indexOf('/#') + 2);
+                    if(document.getElementById(target)){
+                        links.item(i).addEventListener(clicked,function(e){
+                            self.bringIntoView(document.getElementById(target), duration);
+                            setTimeout(function(){
+                                window.location.hash = target;
+                            },duration + 10);
+                            e.preventDefault();
+                            return false;
+                        });
+                    }
                 }
             }
-        }
+        });
     },
     scrollAnchorOnLoad: function(duration){
         var hash = window.location.hash.substr(1);
