@@ -165,100 +165,87 @@ var browser =  {
 };
 
 var animations = {
-    scrollLinks: function(navHeight){
-        if(typeof navHeight == 'undefined'){
-            navHeight = 0;
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            "use strict"
-
-            var links = document.querySelectorAll("a.scroll")
-            var i = links.length
-            var root = /firefox|trident/i.test(navigator.userAgent) ? document.documentElement : document.body
-            var easeInOutCubic = function(t, b, c, d) {
-                if ((t/=d/2) < 1) return c/2*t*t*t + b
-                return c/2*((t-=2)*t*t + 2) + b
-            }
-
-            while (i--) 
-                links.item(i).addEventListener("click", function(e) {
-                    var startTime
-                    var startPos = root.scrollTop
-                    var endPos = document.getElementById(/[^#]+$/.exec(this.href)[0]).getBoundingClientRect().top - navHeight
-                    var maxScroll = root.scrollHeight - window.innerHeight
-                    var scrollEndValue = startPos + endPos < maxScroll ? endPos : maxScroll - startPos
-                    var duration = 900
-                    var scroll = function(timestamp) {
-                        startTime = startTime || timestamp
-                        var elapsed = timestamp - startTime
-                        var progress = easeInOutCubic(elapsed, startPos, scrollEndValue, duration)
-                        root.scrollTop = progress
-                        elapsed < duration && requestAnimationFrame(scroll)
-                    }   
-                    requestAnimationFrame(scroll)
-                    e.preventDefault()
-                }) 
-        })
+    onload: function(callback) {
+        document.readyState === 'interactive' || document.readyState === 'complete' ? callback : document.addEventListener('DOMContentLoaded', callback);
     },
-    // to fix
-    bringIntoView_started: 0,
-    bringIntoView_end: 0,
-    bringIntoView_y: 0,
-    bringIntoView_tick: function(){
-        var distanceLeft, dt, duration, t, travel, self = this;
-        t = Date.now();
-        if (t < self.bringIntoView_ends) {
-            dt = t - self.bringIntoView_started;
-            duration = self.bringIntoView_ends - self.bringIntoView_started;
-            distanceLeft = self.bringIntoView_y - document.body.scrollTop;
-            if (Math.abs(distanceLeft) < 1) {
-                return document.body.scrollTop = self.bringIntoView_y;
-            } else {
-                travel = distanceLeft * (dt / duration);
-                document.body.scrollTop += travel;
-                return window.requestAnimationFrame(self.bringIntoView_tick);
+    renderize: function(fps, render) {
+        var fpsInterval, startTime, now, then, elapsed;
+
+        fpsInterval = 1000 / fps;
+        then = Date.now();
+        startTime = then;
+
+        (function animate() {
+            var anim = requestAnimationFrame(animate);
+            now = Date.now();
+            elapsed = now - then;
+            if (elapsed > fpsInterval) {
+                then = now - (elapsed % fpsInterval);
+                render();
             }
-        } else {
-            return document.body.scrollTop = self.bringIntoView_y;
-        }
+        })();
     },
-    bringIntoView: function(e, duration){
+    easeInOutCubic: function(t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
+    },
+    bringIntoView: function(e, duration) {
         var self = this;
-        self.bringIntoView_started = Date.now();
-        self.bringIntoView_ends = self.bringIntoView_started + duration;
-        self.bringIntoView_y = Math.min(document.body.scrollTop + e.getBoundingClientRect().top, document.body.scrollHeight - window.innerHeight);
-        return window.requestAnimationFrame(self.bringIntoView_tick);
+        if(typeof e === 'string'){
+            if(document.getElementById(e)){
+                e = document.getElementById(e);
+            } else if(document.querySelector('.' + e)){
+                e = document.querySelector('.' + e);
+            } else {
+                e = document.querySelector(e);
+            }
+        }
+        var bodyel = /firefox|trident/i.test(navigator.userAgent) ? document.documentElement : document.body;
+        var startTime;
+        var startPos = bodyel.scrollTop;
+        var endPos = e.getBoundingClientRect().top;
+        var maxScroll = bodyel.scrollHeight - window.innerHeight;
+        var scrollEndValue = startPos + endPos < maxScroll ? endPos : maxScroll - startPos;
+
+        self.renderize(60, function() {
+            startTime = startTime || Date.now();
+            var elapsed = Date.now() - startTime;
+            if (elapsed < duration) {
+                bodyel.scrollTop = self.easeInOutCubic(elapsed, startPos, scrollEndValue, duration);
+            }
+        });
+    },
+    scrollAnchorLinks: function(duration){
+        var self = this;
+        var links = document.querySelectorAll('a');
+        var i = links.length;
+        while(i--) {
+            var href = links.item(i).href;
+            if(href.indexOf('/#') > 1){
+                var target = href.substr(href.indexOf('/#') + 2);
+                if(document.getElementById(target)){
+                    links.item(i).addEventListener(clicked,function(e){
+                        self.bringIntoView(document.getElementById(target), duration);
+                        setTimeout(function(){
+                            window.location.hash = target;
+                        },duration + 10);
+                        e.preventDefault();
+                        return false;
+                    });
+                }
+            }
+        }
+    },
+    scrollAnchorOnLoad: function(duration){
+        var hash = window.location.hash.substr(1);
+        window.location.hash = '';
+        this.onload(function(){
+            if(hash) {
+                animations.bringIntoView(hash, duration);
+                setTimeout(function(){
+                    window.location.hash = hash;
+                }, duration + 10)
+            }
+        });
     }
 };
-
-
-// Alternate scrolling
-window.bringIntoView_started = 0;
-window.bringIntoView_ends = 0;
-window.bringIntoView_y = 0;
-
-window.bringIntoView_tick = function() {
-    var distanceLeft, dt, duration, t, travel;
-    t = Date.now();
-    if (t < window.bringIntoView_ends) {
-        dt = t - window.bringIntoView_started;
-        duration = window.bringIntoView_ends - window.bringIntoView_started;
-        distanceLeft = window.bringIntoView_y - document.body.scrollTop;
-        if (Math.abs(distanceLeft) < 1) {
-            return document.body.scrollTop = window.bringIntoView_y;
-        } else {
-            travel = distanceLeft * (dt / duration);
-            document.body.scrollTop += travel;
-            return window.requestAnimationFrame(window.bringIntoView_tick);
-        }
-    } else {
-        return document.body.scrollTop = window.bringIntoView_y;
-    }
-}
-
-window.bringIntoView = function(e, duration) {
-    window.bringIntoView_started = Date.now();
-    window.bringIntoView_ends = window.bringIntoView_started + duration;
-    window.bringIntoView_y = Math.min(document.body.scrollTop + e.getBoundingClientRect().top, document.body.scrollHeight - window.innerHeight);
-    return window.requestAnimationFrame(window.bringIntoView_tick);
-}
