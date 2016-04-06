@@ -199,5 +199,66 @@ var animations = {
                     e.preventDefault()
                 }) 
         })
+    },
+    // to fix
+    bringIntoView_started: 0,
+    bringIntoView_end: 0,
+    bringIntoView_y: 0,
+    bringIntoView_tick: function(){
+        var distanceLeft, dt, duration, t, travel, self = this;
+        t = Date.now();
+        if (t < self.bringIntoView_ends) {
+            dt = t - self.bringIntoView_started;
+            duration = self.bringIntoView_ends - self.bringIntoView_started;
+            distanceLeft = self.bringIntoView_y - document.body.scrollTop;
+            if (Math.abs(distanceLeft) < 1) {
+                return document.body.scrollTop = self.bringIntoView_y;
+            } else {
+                travel = distanceLeft * (dt / duration);
+                document.body.scrollTop += travel;
+                return window.requestAnimationFrame(self.bringIntoView_tick);
+            }
+        } else {
+            return document.body.scrollTop = self.bringIntoView_y;
+        }
+    },
+    bringIntoView: function(e, duration){
+        var self = this;
+        self.bringIntoView_started = Date.now();
+        self.bringIntoView_ends = self.bringIntoView_started + duration;
+        self.bringIntoView_y = Math.min(document.body.scrollTop + e.getBoundingClientRect().top, document.body.scrollHeight - window.innerHeight);
+        return window.requestAnimationFrame(self.bringIntoView_tick);
     }
 };
+
+
+// Alternate scrolling
+window.bringIntoView_started = 0;
+window.bringIntoView_ends = 0;
+window.bringIntoView_y = 0;
+
+window.bringIntoView_tick = function() {
+    var distanceLeft, dt, duration, t, travel;
+    t = Date.now();
+    if (t < window.bringIntoView_ends) {
+        dt = t - window.bringIntoView_started;
+        duration = window.bringIntoView_ends - window.bringIntoView_started;
+        distanceLeft = window.bringIntoView_y - document.body.scrollTop;
+        if (Math.abs(distanceLeft) < 1) {
+            return document.body.scrollTop = window.bringIntoView_y;
+        } else {
+            travel = distanceLeft * (dt / duration);
+            document.body.scrollTop += travel;
+            return window.requestAnimationFrame(window.bringIntoView_tick);
+        }
+    } else {
+        return document.body.scrollTop = window.bringIntoView_y;
+    }
+}
+
+window.bringIntoView = function(e, duration) {
+    window.bringIntoView_started = Date.now();
+    window.bringIntoView_ends = window.bringIntoView_started + duration;
+    window.bringIntoView_y = Math.min(document.body.scrollTop + e.getBoundingClientRect().top, document.body.scrollHeight - window.innerHeight);
+    return window.requestAnimationFrame(window.bringIntoView_tick);
+}
