@@ -1,3 +1,19 @@
+String.prototype.excerptify = function (length){
+    length = length || 140;
+    if(this.length > length) {
+        var spaceAt = length;
+        if(this.indexOf(' ') > -1){
+            while(spaceAt--){
+                if(this.charAt(spaceAt) == ' ') break;
+            }
+        }
+        var excerpt = this.substring(0, spaceAt);
+        return excerpt.replace(" \t\n\r\0\x0B.!?,;:") + '\u2026';
+    } else {
+        return this;
+    }
+}
+
 String.prototype.hexToRGB = function(){
     function cutHex(h){return (h.charAt(0)=="#") ? h.substring(1,7):h}
     var r = parseInt((cutHex(this)).substring(0,2),16);
