@@ -1,5 +1,6 @@
-String.prototype.excerptify = function (length){
+String.prototype.excerptify = function(length){
     length = length || 140;
+    var punc = ['.','!','?',',',';',':'];
     if(this.length > length) {
         var spaceAt = length;
         if(this.indexOf(' ') > -1){
@@ -8,7 +9,12 @@ String.prototype.excerptify = function (length){
             }
         }
         var excerpt = this.substring(0, spaceAt);
-        return excerpt.replace(" \t\n\r\0\x0B.!?,;:") + '\u2026';
+        for (var i = punc.length - 1; i >= 0; i--) {
+            if(excerpt.slice(-1) == punc[i]){
+                excerpt = excerpt.slice(0, -1);
+            }
+        }
+        return excerpt.trim();
     } else {
         return this;
     }
