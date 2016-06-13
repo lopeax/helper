@@ -81,6 +81,12 @@ Array.prototype.shuffle = function(){
     return this;
 }
 
+Array.prototype.getObjByProperty = function(prop, value){
+    return this.filter(function( obj ) {
+        return obj[prop] == value;
+    });
+}
+
 Array.prototype.editAllProperty = function(property,value){
     var i = this.length;
     while (i--) {
