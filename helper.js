@@ -140,6 +140,16 @@ Math.randomInt = function(min, max){
     return Math.round((Math.random() * (max - min))) + min
 }
 
+var getQueryString = function(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 var clicked = (navigator.userAgent.match(/iPad/i)) ? 'touchstart' : 'click';
 
 var browser =  {
