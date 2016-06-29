@@ -39,3 +39,27 @@ function todays_item($arr){
 function is_prime($number) {
     return !preg_match('/^1?$|^(11+?)\1+$/x', str_repeat('1', $number));
 }
+
+// from 9.5 to 09:30
+function hoursToTime($hours){
+    if((int) $hours != $hours){
+        $hours = explode('.', (string) $hours);
+        for($i = 0, $len = count($hours); $i < $len; $i++){
+            $hours[$i] = intval($hours[$i]);
+        }
+        $hours[0] = ($hours[0] < 10) ? '0' . $hours[0] : $hours[0];
+        $hours[1] = (60 * floatval('0.' . $hours[1]));
+        $hours = $hours[0] . ':' . $hours[1];
+    } else {
+        $hours = ($hours < 10) ? '0' . $hours . ':00' : $hours . ':00';
+    }
+    return $hours;
+}
+
+// from 09:30 to 9.5
+function timeToHours($time){
+    $hoursMinutes = preg_split('/[.:]/', $time);
+    $hours = intval($hoursMinutes[0], 10);
+    $minutes = $hoursMinutes[1] ? intval($hoursMinutes[1], 10) : 0;
+    return floatval(number_format($hours + $minutes / 60, 2, '.', ''));
+}
